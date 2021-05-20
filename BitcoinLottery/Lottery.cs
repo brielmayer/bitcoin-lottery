@@ -10,7 +10,7 @@ namespace BitcoinLottery
         private readonly Options _options;
 
         private readonly ThreadSafeCounter _threadSafeCounter;
-            
+
         private readonly ConcurrentBag<LotteryTicket> _winningLotteryTickets;
 
         private readonly HashSet<string> _bitcoinAddressToBalance;

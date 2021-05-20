@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using BitcoinLottery.Model;
@@ -50,6 +49,5 @@ namespace BitcoinLottery
                 Thread.Sleep(1000);
             }
         }
-
     }
 }

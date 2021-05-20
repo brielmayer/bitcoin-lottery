@@ -1,5 +1,4 @@
-﻿using System.Net.Http;
-using System.Text;
+﻿using System.Text;
 using BitcoinLottery.Model;
 
 namespace BitcoinLottery.Output
@@ -14,8 +13,8 @@ namespace BitcoinLottery.Output
         }
 
         public void Submit(LotteryTicket lotteryTicket)
-		{
-			StringBuilder sb = new StringBuilder();
+        {
+            StringBuilder sb = new StringBuilder();
             sb.AppendLine("-------------------------------------------------");
             sb.AppendLine("WIF Private Key: " + lotteryTicket.PrivateKey);
             sb.AppendLine("Uncompressed Address: " + lotteryTicket.Uncompressed);
@@ -23,6 +22,6 @@ namespace BitcoinLottery.Output
             sb.AppendLine("-------------------------------------------------");
 
             System.IO.File.AppendAllText(_filePath, sb.ToString());
-		}
-	}
+        }
+    }
 }
