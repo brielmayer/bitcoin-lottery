@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -13,13 +14,13 @@ namespace BitcoinLottery
 
         private readonly ThreadSafeCounter _threadSafeCounter;
 
-        private readonly HashSet<FoundAddress> _foundAddresses;
+        private readonly ConcurrentBag<LotteryTicket> _winningLotteryTickets;
 
-        public WatchDog(Options options, ThreadSafeCounter threadSafeCounter, HashSet<FoundAddress> foundAddresses)
+        public WatchDog(Options options, ThreadSafeCounter threadSafeCounter, ConcurrentBag<LotteryTicket> winningLotteryTickets)
         {
             _options = options;
             _threadSafeCounter = threadSafeCounter;
-            _foundAddresses = foundAddresses;
+            _winningLotteryTickets = winningLotteryTickets;
         }
 
         public void Run()
@@ -32,16 +33,16 @@ namespace BitcoinLottery
 
                 var ts = stopWatch.Elapsed;
 
-                Console.WriteLine("Threads.........: {0}", _options.Threads);
-                Console.WriteLine("Keys./.Second...: {0}", _threadSafeCounter.Value());
-                Console.WriteLine("Running.........: {0}", $"{ts.Days}d {ts.Hours:00}h {ts.Minutes:00}m {ts.Seconds:00}s");
-                Console.WriteLine("Found.Addresses.: {0}", _foundAddresses.Count);
-                foreach (var foundAddress in _foundAddresses)
+                Console.WriteLine("Threads..........: {0}", _options.Threads);
+                Console.WriteLine("Tickets./.Second.: {0}", _threadSafeCounter.Value());
+                Console.WriteLine("Running..........: {0}", $"{ts.Days}d {ts.Hours:00}h {ts.Minutes:00}m {ts.Seconds:00}s");
+                Console.WriteLine("Winning.Tickets..: {0}", _winningLotteryTickets.Count);
+                foreach (var lotteryTicket in _winningLotteryTickets)
                 {
                     Console.WriteLine("-------------------------------------------------");
-                    Console.WriteLine("WIF Private Key.: {0}", foundAddress.Wif);
-                    Console.WriteLine("H160............: {0}", foundAddress.H160);
-                    Console.WriteLine("BTC Address.....: {0}", foundAddress.Address);
+                    Console.WriteLine("WIF Private Key......: {0}", lotteryTicket.PrivateKey);
+                    Console.WriteLine("Uncompressed Address.: {0}", lotteryTicket.Uncompressed);
+                    Console.WriteLine("Compressed Address...: {0}", lotteryTicket.Compressed);
                     Console.WriteLine("-------------------------------------------------");
                 }
 

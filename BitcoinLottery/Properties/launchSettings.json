@@ -2,7 +2,7 @@
   "profiles": {
     "BitcoinLottery": {
       "commandName": "Project",
-      "commandLineArgs": "-d C:\\Users\\Patrick\\Downloads\\btc_balance_sorted.csv -f C:\\Users\\Patrick\\Downloads\\found.txt -t 12"
+      "commandLineArgs": "-d C:\\Users\\Patrick\\Downloads\\btc_balance_sorted.csv -t 2"
     }
   }
 }

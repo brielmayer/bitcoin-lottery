@@ -1,7 +1,10 @@
 # Bitcoin Lottery
-Randomly generated bitcoin addresses are checked against bitcoin addresses with actual balance.
+Randomly generated bitcoin private keys are checked against bitcoin addresses with actual balance. Every time you generate a random key, you have a chance of finding someone else's fortune.
 
 ![Screenshot](screenshot.png)
+
+## Dump file
+Dump file can be downloaded here: [https://bitkeys.work/download.php](https://bitkeys.work/download.php)
 
 ## Usage
 ```
@@ -12,9 +15,6 @@ Randomly generated bitcoin addresses are checked against bitcoin addresses with 
  --help            Display help screen.
  --version         Display version information.
  ```
-
-## Dump file
-Dump file can be downloaded here: [https://bitkeys.work/download.php](https://bitkeys.work/download.php)
 
 ## License
 

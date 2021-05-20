@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
@@ -43,30 +44,30 @@ namespace BitcoinLottery
 
             var threadSafeCounter = new ThreadSafeCounter();
 
-            var foundAddresses = new HashSet<FoundAddress>();
+            var winningLotteryTickets = new ConcurrentBag<LotteryTicket>();
 
             // run lottery
             for (var i = 0; i < options.Threads; i++)
             {
-                var lottery = new Lottery(options, threadSafeCounter, foundAddresses, bitcoinAddressWithBalance);
+                var lottery = new Lottery(options, threadSafeCounter, winningLotteryTickets, bitcoinAddressWithBalance);
                 new Thread(lottery.Run).Start();
             }
 
             // run watch dog
-            var watchDog = new WatchDog(options, threadSafeCounter, foundAddresses);
+            var watchDog = new WatchDog(options, threadSafeCounter, winningLotteryTickets);
             new Thread(watchDog.Run).Start();
         }
 
-        private static HashSet<KeyId> GetBitcoinAddressWithBalance(string path)
+        private static HashSet<string> GetBitcoinAddressWithBalance(string path)
         {
-            var bitcoinAddressWithBalance = new HashSet<KeyId>();
+            var bitcoinAddressWithBalance = new HashSet<string>();
             using (var sr = File.OpenText(path))
             {
                 string line;
                 while ((line = sr.ReadLine()) != null)
                 {
                     var columns = line.Split(',');
-                    bitcoinAddressWithBalance.Add(new KeyId(columns[3]));
+                    bitcoinAddressWithBalance.Add(columns[0]);
                 }
             }
 

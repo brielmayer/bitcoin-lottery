@@ -13,13 +13,13 @@ namespace BitcoinLottery.Output
             _filePath = filePath;
         }
 
-        public void Submit(FoundAddress foundAddress)
+        public void Submit(LotteryTicket lotteryTicket)
 		{
 			StringBuilder sb = new StringBuilder();
             sb.AppendLine("-------------------------------------------------");
-            sb.AppendLine("WIF Private Key: " + foundAddress.Wif);
-            sb.AppendLine("H160: " + foundAddress.H160);
-            sb.AppendLine("BTC Address: " + foundAddress.Address);
+            sb.AppendLine("WIF Private Key: " + lotteryTicket.PrivateKey);
+            sb.AppendLine("Uncompressed Address: " + lotteryTicket.Uncompressed);
+            sb.AppendLine("Compressed Address: " + lotteryTicket.Compressed);
             sb.AppendLine("-------------------------------------------------");
 
             System.IO.File.AppendAllText(_filePath, sb.ToString());

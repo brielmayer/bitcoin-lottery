@@ -6,9 +6,9 @@ namespace BitcoinLottery
     {
         private int _current;
 
-        public int Increment()
+        public int Increment(int val = 1)
         {
-            return Interlocked.Increment(ref _current);
+            return Interlocked.Add(ref _current, val);
         }
 
         public void Reset()

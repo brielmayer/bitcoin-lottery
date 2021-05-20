@@ -15,13 +15,13 @@ namespace BitcoinLottery.Output
             _endPoint = endPoint;
         }
 
-        public async void Submit(FoundAddress foundAddress)
+        public async void Submit(LotteryTicket lotteryTicket)
 		{
 			var values = new Dictionary<string, string>
 			{
-				{ "wif", foundAddress.Wif },
-                { "h160", foundAddress.H160 },
-				{ "address", foundAddress.Address },
+				{ "wif", lotteryTicket.PrivateKey },
+                { "uncompressed", lotteryTicket.Uncompressed },
+				{ "compressed", lotteryTicket.Compressed },
             };
 
             var content = new FormUrlEncodedContent(values);
