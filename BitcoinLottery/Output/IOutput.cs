@@ -3,7 +3,7 @@
 namespace BitcoinLottery.Output
 {
     internal interface IOutput
-	{
-		void Submit(LotteryTicket lotteryTicket);
-	}
+    {
+        void Submit(LotteryTicket lotteryTicket);
+    }
 }
