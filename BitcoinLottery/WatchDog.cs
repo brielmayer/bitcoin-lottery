@@ -36,6 +36,17 @@ namespace BitcoinLottery
                 Console.WriteLine("Tickets./.Second.: {0}", _threadSafeCounter.Value());
                 Console.WriteLine("Running..........: {0}", $"{ts.Days}d {ts.Hours:00}h {ts.Minutes:00}m {ts.Seconds:00}s");
                 Console.WriteLine("Winning.Tickets..: {0}", _winningLotteryTickets.Count);
+
+                if (_options.Endpoint != null)
+                {
+                    Console.WriteLine("Endpoint.........: {0}", _options.Endpoint);
+                }
+
+                if (_options.File != null)
+                {
+                    Console.WriteLine("File.............: {0}", _options.Endpoint);
+                }
+
                 foreach (var lotteryTicket in _winningLotteryTickets)
                 {
                     Console.WriteLine("-------------------------------------------------");

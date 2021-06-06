@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
+using BitcoinLottery.Exception;
 using BitcoinLottery.Model;
 
 namespace BitcoinLottery.Output
 {
-    internal class Endpoint : IOutput
+    public class Endpoint : IOutput
     {
         private static readonly HttpClient Client = new HttpClient();
 
@@ -13,6 +15,15 @@ namespace BitcoinLottery.Output
         public Endpoint(string endPoint)
         {
             _endPoint = endPoint;
+        }
+        
+        public void SanityCheck()
+        {
+            string body = Client.GetAsync(_endPoint).Result.Content.ReadAsStringAsync().Result;
+            if(body != "ok")
+            {
+                throw new EndpointException("eN_Pilz");
+            }
         }
 
         public async void Submit(LotteryTicket lotteryTicket)

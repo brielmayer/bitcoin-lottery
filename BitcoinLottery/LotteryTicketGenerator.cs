@@ -4,9 +4,9 @@ using System;
 
 namespace BitcoinLottery
 {
-    class LotteryTicketGenerator
+    public static class LotteryTicketGenerator
     {
-        private readonly static uint256 N = uint256.Parse("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141");
+        private static readonly uint256 N = uint256.Parse("fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141");
 
         public static LotteryTicket Generate()
         {
@@ -28,12 +28,6 @@ namespace BitcoinLottery
 
         private static byte[] SafeSubarray(byte[] array, int offset, int count)
         {
-            if (array == null)
-                throw new ArgumentNullException(nameof(array));
-            if (offset < 0 || offset > array.Length)
-                throw new ArgumentOutOfRangeException("offset");
-            if (count < 0 || offset + count > array.Length)
-                throw new ArgumentOutOfRangeException("count");
             if (offset == 0 && array.Length == count)
                 return array;
 

@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using BitcoinLottery.Exception;
 using BitcoinLottery.Model;
 
 namespace BitcoinLottery.Output
@@ -10,6 +11,15 @@ namespace BitcoinLottery.Output
         public File(string filePath)
         {
             _filePath = filePath;
+        }
+
+        public void SanityCheck()
+        {
+            using var fileStream = System.IO.File.OpenWrite(_filePath);
+            if (!fileStream.CanWrite)
+            {
+                throw new FileException("eN_Pilz File");
+            }
         }
 
         public void Submit(LotteryTicket lotteryTicket)

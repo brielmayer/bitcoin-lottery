@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading;
+using BitcoinLottery.Exception;
 using BitcoinLottery.Model;
+using BitcoinLottery.Output;
 using BitcoinLottery.Properties;
 using CommandLine;
-using NBitcoin;
 
 namespace BitcoinLottery
 {
@@ -39,11 +39,27 @@ namespace BitcoinLottery
 
         private static void Run(Options options)
         {
+            // sanity check
+            try
+            {
+                SanityCheck(options);
+            } 
+            catch(EndpointException e)
+            {
+                Console.WriteLine("Sanity check failed for endpoint {0}: {1}", options.Endpoint, e.Message);
+                return;
+            }
+            catch (FileException e)
+            {
+                Console.WriteLine("Sanity check failed for file {0}: {1}", options.File, e.Message);
+                return;
+            }
+
+            // init btc addresses
             Console.WriteLine("Initializing Bitcoin Lottery with {0} thread(s)...", options.Threads);
             var bitcoinAddressWithBalance = GetBitcoinAddressWithBalance(options.Dump);
 
             var threadSafeCounter = new ThreadSafeCounter();
-
             var winningLotteryTickets = new ConcurrentBag<LotteryTicket>();
 
             // run lottery
@@ -58,10 +74,27 @@ namespace BitcoinLottery
             new Thread(watchDog.Run).Start();
         }
 
+        private static void SanityCheck(Options options)
+        {
+            // endpoint
+            if (options.Endpoint != null)
+            {
+                var endPoint = new Endpoint(options.Endpoint);
+                endPoint.SanityCheck();
+            }
+
+            // file
+            if (options.File != null)
+            {
+                var file = new Output.File(options.File);
+                file.SanityCheck();
+            }
+        }
+
         private static HashSet<string> GetBitcoinAddressWithBalance(string path)
         {
             var bitcoinAddressWithBalance = new HashSet<string>();
-            using (var sr = File.OpenText(path))
+            using (var sr = System.IO.File.OpenText(path))
             {
                 string line;
                 while ((line = sr.ReadLine()) != null)
